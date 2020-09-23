@@ -16,11 +16,11 @@ class CreateFoodTable extends Migration
         Schema::create('food', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
-            $table->float('fat', 2, 2);
-            $table->float('saturated_fat', 2, 2);
-            $table->float('carbohydrate', 2, 2);
-            $table->float('sugar', 2, 2);
-            $table->float('protein', 2, 2);
+            $table->float('fat', 4, 2);
+            $table->float('saturated_fat', 4, 2);
+            $table->float('carbohydrate', 4, 2);
+            $table->float('sugar', 4, 2);
+            $table->float('protein', 4, 2);
             $table->boolean('animal');
             $table->timestamps();
         });

@@ -1,3 +1,3 @@
 # Nutrifort
 
-![Laravel](https://github.com/madalinignisca/nutrifort/workflows/Laravel/badge.svg)
+![Laravel tests](https://github.com/madalinignisca/nutrifort/workflows/Laravel/badge.svg)

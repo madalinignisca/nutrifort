@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Food;
 use Illuminate\Http\Request;
+use App\Models\Food;
+use App\Http\Requests\StoreFoodRequest;
 
 class FoodController extends Controller
 {
@@ -35,9 +36,13 @@ class FoodController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreFoodRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        $food = Food::create($validated);
+
+        return $food->toArray();
     }
 
     /**

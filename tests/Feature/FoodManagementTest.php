@@ -14,6 +14,13 @@ class FoodManagementTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->tableName = (new Food)->getTable();
+    }
+
     public function testUnauthenticatedUserCannotCreateFood()
     {
         $food = Food::factory()->make();
@@ -57,8 +64,32 @@ class FoodManagementTest extends TestCase
 
         $response = $this->actingAs($user)->post($food->getBaseRoute(), $food->toArray());
 
-        $this->assertDatabaseHas((new Food)->getTable(), ['name' => $food->name]);
+        $this->assertDatabaseHas($this->tableName, ['name' => $food->name]);
 
         $response->assertSee($food->name);
+    }
+
+
+
+    public function testEditorUserCanUpdateFood()
+    {
+        $role = Role::create(['name' => 'editor']);
+        $permission = Permission::create(['name' => 'update food']);
+        $role->givePermissionTo($permission);
+
+        $user = User::factory()->create();
+        $user->assignRole('editor');
+
+        $food = Food::factory()->create();
+        do {
+            $newFood = Food::factory()->make();
+        } while ($food->name == $newFood->name); // make sure faker is not giving identical value
+
+        $response = $this->actingAs($user)->put($food->getRoute(), $newFood->toArray());
+
+        $this->assertDatabaseMissing($this->tableName, ['name' => $food->name]);
+        $this->assertDatabaseHas($this->tableName, ['name' => $newFood->name]);
+
+        $response->assertSee($newFood->name);
     }
 }

@@ -53,7 +53,7 @@ class FoodPolicy
      */
     public function update(User $user, Food $food)
     {
-        //
+        return $user->can('update food');
     }
 
     /**
